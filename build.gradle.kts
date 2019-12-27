@@ -527,6 +527,7 @@ allprojects {
         }
 
         apply(from = "$rootDir/gradle/cacheRedirector.gradle.kts")
+        apply(from = "$rootDir/gradle/testRetry.gradle.kts")
     }
 }
 
