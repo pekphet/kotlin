@@ -20,6 +20,7 @@ import org.jetbrains.kotlin.descriptors.SourceElement
 import org.jetbrains.kotlin.descriptors.SourceFile
 import org.jetbrains.kotlin.load.java.descriptors.getImplClassNameForDeserialized
 import org.jetbrains.kotlin.load.java.lazy.descriptors.LazyJavaPackageFragment
+import org.jetbrains.kotlin.resolve.jvm.JvmClassName
 import org.jetbrains.kotlin.serialization.deserialization.descriptors.DeserializedMemberDescriptor
 
 class KotlinJvmBinaryPackageSourceElement(
@@ -35,6 +36,8 @@ class KotlinJvmBinaryPackageSourceElement(
 
     fun getContainingBinaryClass(descriptor: DeserializedMemberDescriptor): KotlinJvmBinaryClass? {
         val name = descriptor.getImplClassNameForDeserialized() ?: return null
-        return packageFragment.binaryClasses[name.internalName]
+        return getContainingBinaryClass(name)
     }
+
+    fun getContainingBinaryClass(className: JvmClassName): KotlinJvmBinaryClass? = packageFragment.binaryClasses[className.internalName]
 }

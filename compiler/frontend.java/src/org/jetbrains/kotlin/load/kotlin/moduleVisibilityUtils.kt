@@ -61,9 +61,14 @@ fun isContainedByCompiledPartOfOurModule(descriptor: DeclarationDescriptor, frie
                 source.getRepresentativeBinaryClass()
             }
         else ->
-            null
+            return false
     }
 
+    return isContainedByCompiledPartOfOurModule(binaryClass, friendPath)
+}
+
+fun isContainedByCompiledPartOfOurModule(binaryClass: KotlinJvmBinaryClass, friendPath: File?): Boolean {
+    if (friendPath == null) return false
     if (binaryClass is VirtualFileKotlinClass) {
         val file = binaryClass.file
         when (file.fileSystem.protocol) {
